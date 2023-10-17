@@ -9,6 +9,15 @@ AFTMAN_TOOLS = [
     "JohnnyMorganz/StyLua",
 ]
 
+# VSCODE WORKSPACE FILE
+VSCODE_WORKSPACE = '''{
+    "folders": [
+        {
+            "path": "."
+        }
+    ]
+}'''
+
 # ROJO CONFIG
 ROJO_CONFIG = '''{
   "name": "%s",
@@ -105,6 +114,8 @@ if output.returncode:
     exit()
 
 commands = [
+    # Add vscode workspace
+    f"echo '{VSCODE_WORKSPACE}' > {project_name}.code-workspace",
     # Setup aftman and install tools
     f"aftman init; {''.join(f'aftman add {tool};' for tool in AFTMAN_TOOLS)}",
     # Setup selene
@@ -114,9 +125,10 @@ commands = [
     # Setup rojo
     f"rojo init; echo '{ROJO_CONFIG % project_name}' > default.project.json;",
     "rm -rf src/; mkdir -p src/ServerScriptService src/StarterPlayer/StarterCharacterScripts src/StarterPlayer/StarterPlayerScripts",
-    f"echo '{SOURCEMAP_JSON}' > sourcemap.json",
+    f"echo '{SOURCEMAP_JSON % project_name}' > sourcemap.json",
     # First git commit
-    "git add .; git commit -m 'Setup aftman, rojo, selene and stylua'"
+    "git add .; git commit -m 'Setup aftman, rojo, selene and stylua'",
+    f"code {project_name}.code-workspace"
 ]
 
 # Run all commands
