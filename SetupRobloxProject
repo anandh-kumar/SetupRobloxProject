@@ -1,0 +1,124 @@
+#!/usr/bin/python3
+import subprocess
+from glob import glob
+
+# AFTMAN TOOLS
+AFTMAN_TOOLS = [
+    "rojo-rbx/rojo",
+    "Kampfkarren/selene",
+    "JohnnyMorganz/StyLua",
+]
+
+# ROJO CONFIG
+ROJO_CONFIG = '''{
+  "name": "%s",
+  "tree": {
+    "$className": "DataModel",
+
+    "ServerScriptService": {
+      "$ignoreUnknownInstances": true,
+      "$path": "src/ServerScriptService"
+    },
+
+    "StarterPlayer": {
+      "StarterPlayerScripts": {
+        "$ignoreUnknownInstances": true,
+        "$path": "src/StarterPlayer/StarterPlayerScripts"
+      },
+      "StarterCharacterScripts": {
+        "$ignoreUnknownInstances": true,
+        "$path": "src/StarterPlayer/StarterCharacterScripts"
+      }
+    }
+  }
+}'''
+
+SOURCEMAP_JSON = '''{
+    "name": "%s",
+    "className": "DataModel",
+    "filePaths": [
+        "default.project.json"
+    ],
+    "children": [
+        {
+            "name": "ServerScriptService",
+            "className": "ServerScriptService"
+        },
+        {
+            "name": "StarterPlayer",
+            "className": "StarterPlayer",
+            "children": [
+                {
+                    "name": "StarterCharacterScripts",
+                    "className": "StarterCharacterScripts"
+                },
+                {
+                    "name": "StarterPlayerScripts",
+                    "className": "StarterPlayerScripts"
+                }
+            ]
+        }
+    ]
+}'''
+
+# STYLUA CONFIG
+STYLUA_CONFIG = """column_width = 120
+line_endings = "Unix"
+indent_type = "Spaces"
+indent_width = 4
+quote_style = "AutoPreferDouble"
+call_parentheses = "Always"
+collapse_simple_statement = "Never"
+
+[sort_requires]
+enabled = true"""
+
+# Gets the name of project
+project_name = input("Name of the Project: ")
+
+# For blank space
+print()
+
+# Selecting Category it belongs to
+categories = glob("/home/anandh/Roblox/*/", recursive = True)
+for i, category in enumerate(categories):
+    category_name = category.strip('/').split('/')[-1]
+    print(f"[{i}] - {category_name}")
+
+# For blank space
+print()
+
+category_selected = None
+while category_selected == None:
+    category_input = input("Select Category: ")
+
+    if not category_input.isdigit() or int(category_input) > len(categories) - 1:
+        print('Invalid Category!')
+        continue
+
+    category_selected = categories[int(category_input)]
+
+# Create directory for the project
+command = f"mkdir {category_selected}/{project_name}"
+output = subprocess.run(command, shell=True)
+if output.returncode:
+    exit()
+
+commands = [
+    # Setup aftman and install tools
+    f"aftman init; {''.join(f'aftman add {tool};' for tool in AFTMAN_TOOLS)}",
+    # Setup selene
+    "echo std=\"roblox\" > selene.toml",
+    # Setup Stylua
+    f"echo '{STYLUA_CONFIG}' > stylua.toml;"
+    # Setup rojo
+    f"rojo init; echo '{ROJO_CONFIG % project_name}' > default.project.json;",
+    "rm -rf src/; mkdir -p src/ServerScriptService src/StarterPlayer/StarterCharacterScripts src/StarterPlayer/StarterPlayerScripts",
+    f"echo '{SOURCEMAP_JSON}' > sourcemap.json",
+    # First git commit
+    "git add .; git commit -m 'Setup aftman, rojo, selene and stylua'"
+]
+
+# Run all commands
+for command in commands:
+    subprocess.run(args=command, cwd=f'{category_selected}/{project_name}', shell=True)
