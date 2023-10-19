@@ -38,6 +38,10 @@ ROJO_CONFIG = '''{
         "$ignoreUnknownInstances": true,
         "$path": "src/StarterPlayer/StarterCharacterScripts"
       }
+    },
+    "TestService": {
+      "$ignoreUnknownInstances": true,
+      "$path": "src/TestService"
     }
   }
 }'''
@@ -66,6 +70,10 @@ SOURCEMAP_JSON = '''{
                     "className": "StarterPlayerScripts"
                 }
             ]
+        },
+        {
+            "name": "TestService",
+            "className": "TestService"
         }
     ]
 }'''
@@ -124,7 +132,7 @@ commands = [
     f"echo '{STYLUA_CONFIG}' > stylua.toml;"
     # Setup rojo
     f"rojo init; echo '{ROJO_CONFIG % project_name}' > default.project.json;",
-    "rm -rf src/; mkdir -p src/ServerScriptService src/StarterPlayer/StarterCharacterScripts src/StarterPlayer/StarterPlayerScripts",
+    "rm -rf src/; mkdir -p src/ServerScriptService src/StarterPlayer/StarterCharacterScripts src/StarterPlayer/StarterPlayerScripts src/TestService",
     f"echo '{SOURCEMAP_JSON % project_name}' > sourcemap.json",
     # First git commit
     "git add .; git commit -m 'Setup aftman, rojo, selene and stylua'",
