@@ -134,7 +134,7 @@ commands = [
     # Setup aftman and install tools
     f"aftman init; {''.join(f'aftman add {tool};' for tool in AFTMAN_TOOLS)}",
     # Setup selene
-    "echo std=\"roblox\" > selene.toml",
+    "echo 'std=\"roblox\"' > selene.toml",
     # Setup Stylua
     f"echo '{STYLUA_CONFIG}' > stylua.toml;"
     # Setup rojo
