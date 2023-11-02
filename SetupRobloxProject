@@ -15,7 +15,14 @@ VSCODE_WORKSPACE = '''{
         {
             "path": "."
         }
-    ]
+    ],
+    "extensions": {
+        "recommendations": [
+            "JohnnyMorganz.luau-lsp",
+            "evaera.vscode-rojo",
+            "JohnnyMorganz.stylua"
+        ]
+    },
 }'''
 
 # ROJO CONFIG
