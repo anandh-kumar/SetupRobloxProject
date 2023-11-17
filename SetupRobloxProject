@@ -10,7 +10,7 @@ AFTMAN_TOOLS = [
 ]
 
 # VSCODE WORKSPACE FILE
-VSCODE_WORKSPACE = '''{
+VSCODE_WORKSPACE = r'''{
     "folders": [
         {
             "path": "."
@@ -20,8 +20,12 @@ VSCODE_WORKSPACE = '''{
         "recommendations": [
             "JohnnyMorganz.luau-lsp",
             "evaera.vscode-rojo",
-            "JohnnyMorganz.stylua"
+            "JohnnyMorganz.stylua",
+            "Gruntfuggly.todo-tree"
         ]
+    },
+    "settings": {
+        "todo-tree.regex.regex": "--\\\\[\\\\[[\\\\s|\\\\n|\\\\r]*($TAGS)[\\\\s|\\\\n|\\\\r]*\\\\]\\\\]|--\\\\s*($TAGS)"
     },
 }'''
 
@@ -97,6 +101,15 @@ collapse_simple_statement = "Never"
 [sort_requires]
 enabled = true"""
 
+COMMIT_MESSAGE_TITLE = "'chore: setup tools'"
+COMMIT_MESSAGE_DESCRIPTION = """'- setup vscode with workspace file
+- setup todo tree for lua
+- setup aftman with aftman.toml file
+- setup rojo with default.project.json file
+- setup selene with selene.toml file
+- setup stylua with stylua.toml file
+- setup git with .gitignore'"""
+
 # Gets the name of project
 project_name = input("Name of the Project: ")
 
@@ -142,7 +155,7 @@ commands = [
     "rm -rf src/; mkdir -p src/ServerScriptService src/StarterPlayer/StarterCharacterScripts src/StarterPlayer/StarterPlayerScripts src/TestService",
     f"echo '{SOURCEMAP_JSON % project_name}' > sourcemap.json",
     # First git commit
-    "git add .; git commit -m 'Setup aftman, rojo, selene and stylua'",
+    f"git add .; git commit -m {COMMIT_MESSAGE_TITLE} -m {COMMIT_MESSAGE_DESCRIPTION}",
     f"code {project_name}.code-workspace"
 ]
 
