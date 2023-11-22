@@ -57,38 +57,6 @@ ROJO_CONFIG = '''{
   }
 }'''
 
-SOURCEMAP_JSON = '''{
-    "name": "%s",
-    "className": "DataModel",
-    "filePaths": [
-        "default.project.json"
-    ],
-    "children": [
-        {
-            "name": "ServerScriptService",
-            "className": "ServerScriptService"
-        },
-        {
-            "name": "StarterPlayer",
-            "className": "StarterPlayer",
-            "children": [
-                {
-                    "name": "StarterCharacterScripts",
-                    "className": "StarterCharacterScripts"
-                },
-                {
-                    "name": "StarterPlayerScripts",
-                    "className": "StarterPlayerScripts"
-                }
-            ]
-        },
-        {
-            "name": "TestService",
-            "className": "TestService"
-        }
-    ]
-}'''
-
 # STYLUA CONFIG
 STYLUA_CONFIG = """column_width = 120
 line_endings = "Unix"
@@ -100,6 +68,11 @@ collapse_simple_statement = "Never"
 
 [sort_requires]
 enabled = true"""
+
+GIT_IGNORE = """
+
+# Rojo
+sourcemap.json"""
 
 COMMIT_MESSAGE_TITLE = "'chore: setup tools'"
 COMMIT_MESSAGE_DESCRIPTION = """'- setup vscode with workspace file
@@ -153,8 +126,8 @@ commands = [
     # Setup rojo
     f"rojo init; echo '{ROJO_CONFIG % project_name}' > default.project.json;",
     "rm -rf src/; mkdir -p src/ServerScriptService src/StarterPlayer/StarterCharacterScripts src/StarterPlayer/StarterPlayerScripts src/TestService",
-    f"echo '{SOURCEMAP_JSON % project_name}' > sourcemap.json",
     # First git commit
+    f"echo '{GIT_IGNORE}' >> .gitignore",
     f"git add .; git commit -m {COMMIT_MESSAGE_TITLE} -m {COMMIT_MESSAGE_DESCRIPTION}",
     f"code {project_name}.code-workspace"
 ]
