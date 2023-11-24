@@ -57,6 +57,16 @@ ROJO_CONFIG = '''{
   }
 }'''
 
+LUAURC_CONFIG = '''{
+    "languageMode": "strict",
+    "lint": {
+        "*": true
+    },
+    "lintErrors": true,
+    "typeErrors": true,
+    "globals": []
+}'''
+
 # STYLUA CONFIG
 STYLUA_CONFIG = """column_width = 120
 line_endings = "Unix"
@@ -81,7 +91,9 @@ COMMIT_MESSAGE_DESCRIPTION = """'- setup vscode with workspace file
 - setup rojo with default.project.json file
 - setup selene with selene.toml file
 - setup stylua with stylua.toml file
-- setup git with .gitignore'"""
+- setup git with .gitignore
+- setup liners with .luaurc
+'"""
 
 # Gets the name of project
 project_name = input("Name of the Project: ")
@@ -128,6 +140,7 @@ commands = [
     "rm -rf src/; mkdir -p src/ServerScriptService src/StarterPlayer/StarterCharacterScripts src/StarterPlayer/StarterPlayerScripts src/TestService",
     # First git commit
     f"echo '{GIT_IGNORE}' >> .gitignore",
+    f"echo '{LUAURC_CONFIG}' > .luaurc",
     f"git add .; git commit -m {COMMIT_MESSAGE_TITLE} -m {COMMIT_MESSAGE_DESCRIPTION}",
     f"code {project_name}.code-workspace"
 ]
