@@ -92,7 +92,7 @@ COMMIT_MESSAGE_DESCRIPTION = """'- setup vscode with workspace file
 - setup selene with selene.toml file
 - setup stylua with stylua.toml file
 - setup git with .gitignore
-- setup liners with .luaurc
+- setup linters with .luaurc
 '"""
 
 # Gets the name of project
